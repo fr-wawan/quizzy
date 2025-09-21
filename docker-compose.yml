@@ -1,3 +1,4 @@
+
 services:
   postgres:
     image: postgres:16-alpine
@@ -14,7 +15,7 @@ services:
 
   backend:
     build:
-      context: .
+      context: .                    
       dockerfile: apps/backend/Dockerfile
     container_name: quizzy-backend
     ports:
@@ -22,21 +23,19 @@ services:
     environment:
       DATABASE_URL: ${DATABASE_URL}
     volumes:
-      - .:/app
-      - /app/node_modules
+      - .:/app                        
     depends_on:
       - postgres
 
   frontend:
     build:
-      context: .
+      context: .                     
       dockerfile: apps/frontend/Dockerfile
     container_name: quizzy-frontend
     ports:
-      - "3001:3001"
+      - "3001:3000"
     volumes:
-      - .:/app
-      - /app/node_modules
+      - .:/app                        
     depends_on:
       - backend
 

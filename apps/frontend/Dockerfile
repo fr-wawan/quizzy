@@ -2,10 +2,12 @@ FROM node:20-alpine
 
 WORKDIR /app
 
+RUN npm install -g pnpm
+
 COPY package.json pnpm-workspace.yaml pnpm-lock.yaml ./
 
-RUN npm install -g pnpm \
-    && pnpm install --frozen-lockfile
+# Install dependencies
+RUN pnpm install
 
 COPY apps/frontend ./apps/frontend
 COPY packages/shared ./packages/shared
