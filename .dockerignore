@@ -1,3 +1,16 @@
 node_modules
-dist
+npm-debug.log
+.pnpm-debug.log*
+.git
+.gitignore
+README.md
 .env
+.env.*
+!.env.dev
+.nyc_output
+coverage
+.vscode
+.DS_Store
+dist
+.next
+out
