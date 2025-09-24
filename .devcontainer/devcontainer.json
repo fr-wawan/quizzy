@@ -1,0 +1,39 @@
+{
+  "name": "quizzy-dev",
+  "dockerComposeFile": "../docker-compose.dev.yml",
+  "service": "dev",
+  "workspaceFolder": "/workspace",
+  "overrideCommand": true,
+  "postCreateCommand": "pnpm install",
+  "customizations": {
+    "vscode": {
+      "settings": {
+        "terminal.integrated.profiles.linux": {
+          "frontend": {
+            "path": "pnpm",
+            "args": ["--filter", "frontend-quizzy", "dev"]
+          },
+          "backend": {
+            "path": "pnpm",
+            "args": ["--filter", "backend-quizzy", "start:dev"]
+          }
+        }
+      },
+      "tasks": {
+        "frontend": {
+          "command": "pnpm --filter frontend-quizzy dev"
+        },
+        "backend": {
+          "command": "pnpm --filter backend-quizzy start:dev"
+        }
+      },
+      "extensions": [
+        "esbenp.prettier-vscode",
+        "dbaeumer.vscode-eslint",
+        "Prisma.prisma",
+        "ms-azuretools.vscode-docker"
+      ]
+    }
+  },
+  "postStartCommand": ""
+}

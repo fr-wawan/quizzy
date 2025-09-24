@@ -15,13 +15,55 @@ logs
 *.log
 npm-debug.log*
 yarn-debug.log*
-yarn-error.log*
+yarn-error.log*services:
+  dev:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: quizzy-dev
+    volumes:
+      - .:/workspace
+    networks:
+      - quizzy-network
+    depends_on:
+      db:
+        condition: service_healthy
+
+  db:
+    image: postgres:16-alpine
+    container_name: quizzy-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: quizzy_dev
+      POSTGRES_USER: quizzy_user
+      POSTGRES_PASSWORD: quizzy_password
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - quizzy-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U quizzy_user -d quizzy_dev"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  postgres_data:
+
+networks:
+  quizzy-network:
+    driver: bridge
+
 pnpm-debug.log*
 
 # Build outputs
 .next/
 out/
 build/
+
+.pnpm-store
 
 # Prisma
 apps/backend/prisma/migrations/dev.db*
